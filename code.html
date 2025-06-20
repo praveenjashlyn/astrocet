@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AstroCET | Unveiling Cosmic Dawn with JWST</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Lato:wght@300;400;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* --- CSS Reset & Global Styles --- */
+        :root {
+            --bg-color: #0c0c1e;
+            --text-color: #e0e0e0;
+            --primary-color: #3d5af1;
+            --accent-color: #ff4081;
+            --header-bg: rgba(12, 12, 30, 0.85);
+            --font-heading: 'Orbitron', sans-serif;
+            --font-body: 'Lato', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--font-body);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* --- Reading Progress Bar --- */
+        #progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            width: 0%;
+            z-index: 1001;
+            transition: width 0.1s linear;
+        }
+
+        /* --- Header & Navigation --- */
+        .main-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            z-index: 1000;
+            transition: background-color 0.4s ease, backdrop-filter 0.4s ease;
+        }
+
+        .main-header.scrolled {
+            background-color: var(--header-bg);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--accent-color);
+        }
+
+        .main-nav a {
+            color: #fff;
+            text-decoration: none;
+            margin-left: 2rem;
+            font-weight: 700;
+            transition: color 0.3s ease;
+        }
+
+        .main-nav a:hover {
+            color: var(--accent-color);
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #fff;
+            /* Image Source: NASA, ESA, CSA, STScI */
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://stsci-opo.org/STScI-01G7ETPF137H28K41Y71C6N87T.png');
+            background-size: cover;
+            background-position: center center;
+            background-attachment: fixed;
+            /* Parallax effect */
+        }
+
+        .hero-content {
+            max-width: 800px;
+            padding: 0 1rem;
+            animation: fadeInHero 1.5s ease-in-out;
+        }
+
+        @keyframes fadeInHero {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero h1 {
+            font-family: var(--font-heading);
+            font-size: 3.5rem;
+            margin-bottom: 0.5rem;
+            line-height: 1.2;
+            text-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+        }
+
+        .hero .byline {
+            font-size: 1.1rem;
+            font-style: italic;
+            opacity: 0.9;
+        }
+
+        /* --- Article Content --- */
+        .blog-content {
+            max-width: 750px;
+            margin: 0 auto;
+            padding: 5rem 1.5rem;
+        }
+
+        .blog-content h2 {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            color: #fff;
+            margin: 3rem 0 1.5rem 0;
+            border-left: 4px solid var(--primary-color);
+            padding-left: 1rem;
+        }
+
+        .blog-content p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-color);
+        }
+
+        .blog-content a {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 700;
+            transition: text-shadow 0.3s;
+        }
+
+        .blog-content a:hover {
+            text-decoration: underline;
+            text-shadow: 0 0 8px var(--accent-color);
+        }
+
+        .blog-content figure {
+            margin: 3rem 0;
+            width: 100%;
+        }
+
+        .blog-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .blog-content img:hover {
+            transform: scale(1.02);
+        }
+
+        .blog-content figcaption {
+            text-align: center;
+            font-size: 0.9rem;
+            color: #aaa;
+            margin-top: 0.75rem;
+            font-style: italic;
+        }
+
+        .blog-content blockquote {
+            border-left: 4px solid var(--accent-color);
+            padding: 1rem 2rem;
+            margin: 3rem 0;
+            font-size: 1.3rem;
+            font-style: italic;
+            background: rgba(255, 64, 129, 0.05);
+            border-radius: 0 8px 8px 0;
+        }
+
+        /* --- Fade-in on Scroll Animation --- */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .fade-in.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- Footer --- */
+        footer {
+            text-align: center;
+            padding: 2rem 1rem;
+            margin-top: 3rem;
+            background-color: #060612;
+            font-size: 0.9rem;
+        }
+
+        /* --- Back to Top Button --- */
+        #back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 24px;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
+            z-index: 999;
+        }
+
+        #back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .blog-content h2 {
+                font-size: 2rem;
+            }
+
+            .main-nav {
+                display: none;
+                /* Simplification for mobile */
+            }
+
+            .logo {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* --- Related Posts Section --- */
+        .related-posts {
+            padding: 4rem 1.5rem;
+            background-color: #0e0e25;
+            color: var(--text-color);
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .related-posts h2 {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            color: #fff;
+        }
+
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .post-card {
+            background-color: #1b1b3a;
+            padding: 1rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: center;
+        }
+
+        .post-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+        }
+
+        .post-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .post-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.8rem;
+            font-weight: bold;
+        }
+
+        .post-card a {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 700;
+            display: inline-block;
+            margin-top: 0.5rem;
+            transition: text-shadow 0.3s ease;
+        }
+
+        .post-card a:hover {
+            text-shadow: 0 0 8px var(--accent-color);
+        }
+        #logos{
+            width: 16rem;
+            height: 4rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Reading Progress Bar -->
+    <div id="progress-bar"></div>
+
+    <!-- Header -->
+    <header class="main-header" id="main-header">
+        <a href="#" class="logo">Astro<span>BLOGS</span></a>
+        <img id="logos"src="logo.jpeg">
+        <nav class="main-nav">
+            <a href="#article-start">Article</a>
+            <a href="#">Home</a>
+            <a href="#">Return to Blogs</a> 
+            <a href="#">Join AstroCET</a> 
+
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1>The Golden Eye: How the James Webb Telescope is Unveiling Cosmic Dawn</h1>
+                <p class="byline">By AstroCET Staff | Published October 26, 2023</p>
+            </div>
+        </section>
+
+        <!-- Article -->
+        <article class="blog-content" id="article-start">
+            <p class="fade-in">
+                For decades, we have gazed into the cosmos with wonder, limited only by the technology we held. The
+                Hubble Space Telescope opened a spectacular window to the universe, but even its powerful vision
+                couldn't pierce the veil of the earliest cosmic epochs. Now, a new eye has opened, one that sees in a
+                different light. The James Webb Space Telescope (JWST), a marvel of human ingenuity, is peering back to
+                the dawn of time, revealing secrets that have been hidden for over 13.5 billion years.
+            </p>
+
+            <h2 class="fade-in">A New Vision in Infrared</h2>
+            <p class="fade-in">
+                Unlike Hubble, which primarily observes in visible and ultraviolet light, JWST is optimized for the
+                infrared spectrum. Why is this so crucial? The universe is expanding. As light from the very first stars
+                and galaxies travels across billions of light-years to reach us, its wavelength is stretched by this
+                expansion. This phenomenon, known as "redshift," shifts the light from the visible spectrum into the
+                infrared. JWST's giant, 6.5-meter golden mirror is specifically designed to collect this faint, ancient
+                light.
+            </p>
+
+            <figure class="fade-in">
+                <!-- Image Source: NASA, ESA, CSA, and STScI -->
+                <img src="https://stsci-opo.org/STScI-01G8X2364J2E113C0VG44G61R9.png"
+                    alt="Stephan's Quintet as seen by JWST">
+                <figcaption>Stephan's Quintet, a visual grouping of five galaxies, captured in breathtaking detail by
+                    JWST's MIRI instrument.</figcaption>
+            </figure>
+
+            <h2 class="fade-in">Peering Through Cosmic Dust</h2>
+            <p class="fade-in">
+                Infrared light has another superpower: it can pass through the dense clouds of gas and dust that obscure
+                many of the most interesting places in the universe. These stellar nurseries, where new stars and
+                planetary systems are born, are opaque to visible light telescopes. JWST, however, can peer inside these
+                cosmic incubators, giving us an unprecedented look at the chaotic and beautiful process of creation.
+            </p>
+
+            <blockquote class="fade-in">
+                "We're going to be able to see the very first stars and galaxies that ever formed. We're going to see
+                how they grew. We're going to see them as they are today and how they're different. It's an amazing
+                human story."
+                <footer>— Dr. John Mather, Nobel Laureate & JWST Senior Project Scientist</footer>
+            </blockquote>
+
+            <h2 class="fade-in">The Science of a New Era</h2>
+            <p class="fade-in">
+                The primary missions of JWST are nothing short of revolutionary. It aims to answer some of humanity's
+                most profound questions:
+            </p>
+            <ul style="margin-left: 2rem; margin-bottom: 1.5rem;" class="fade-in">
+                <li><strong>The First Light:</strong> To identify the first galaxies that formed after the Big Bang.
+                </li>
+                <li><strong>Galaxy Assembly:</strong> To understand how galaxies evolve over billions of years.</li>
+                <li><strong>Birth of Stars and Planets:</strong> To observe the formation of stars and planetary systems
+                    in our own Milky Way.</li>
+                <li><strong>Exoplanets and Life:</strong> To characterize the atmospheres of distant exoplanets,
+                    searching for the building blocks of life.</li>
+            </ul>
+
+            <figure class="fade-in">
+                <!-- Image Source: NASA, ESA, CSA, STScI -->
+                <img src="https://stsci-opo.org/STScI-01G7KX10C5P9ASF4R002S8E11C.png"
+                    alt="The 'Cosmic Cliffs' in the Carina Nebula as seen by JWST">
+                <figcaption>The "Cosmic Cliffs" of the Carina Nebula, a star-forming region, revealed in stunning
+                    clarity by JWST.</figcaption>
+            </figure>
+
+            <p class="fade-in">
+                Every image returned by the telescope has been a revelation, showcasing a universe more vibrant,
+                complex, and beautiful than we ever imagined. From the galactic dance of Stephan's Quintet to the
+                ethereal landscapes of the "Cosmic Cliffs," JWST is not just collecting data; it is delivering art
+                forged by the cosmos itself. It is the beginning of a new chapter in our quest to understand our place
+                in the universe. You can explore all the latest images directly on the <a
+                    href="https://webbtelescope.org/" target="_blank" rel="noopener noreferrer">official Webb Telescope
+                    website</a>.
+            </p>
+        </article>
+        <!-- Related Posts Section -->
+        <section class="related-posts fade-in">
+            <h2>Related Posts</h2>
+            <div class="card-container">
+                <div class="post-card">
+                    <img src="https://stsci-opo.org/STScI-01G8X22QKAH4E28FZCAYC6J5GM.png" alt="Galaxy Evolution">
+                    <h3>Tracing Galaxy Evolution with JWST</h3>
+                    <a href="#">Read More →</a>
+                </div>
+                <div class="post-card">
+                    <img src="https://stsci-opo.org/STScI-01G8X22SYTCRCS6EQKTF7PBYEX.png" alt="Exoplanet Atmospheres">
+                    <h3>Exploring Alien Worlds: Exoplanet Atmospheres</h3>
+                    <a href="#">Read More →</a>
+                </div>
+                <div class="post-card">
+                    <img src="https://stsci-opo.org/STScI-01G8X23A4TPQ3QCM83ZK1J55AF.png" alt="Stellar Nurseries">
+                    <h3>Inside Stellar Nurseries: Star Birth Revealed</h3>
+                    <a href="#">Read More →</a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2023 AstroCET. All rights reserved. Exploring the universe, one article at a time.</p>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <a href="#" id="back-to-top">▲</a>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const header = document.getElementById('main-header');
+            const progressBar = document.getElementById('progress-bar');
+            const backToTopButton = document.getElementById('back-to-top');
+
+            // --- Header Scroll Effect & Reading Progress ---
+            function updateOnScroll() {
+                const scrollPosition = window.scrollY;
+                const windowHeight = window.innerHeight;
+                const fullHeight = document.body.clientHeight;
+
+                // Header styling
+                if (scrollPosition > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+
+                // Progress Bar calculation
+                const progress = (scrollPosition / (fullHeight - windowHeight)) * 100;
+                progressBar.style.width = progress + '%';
+
+                // Back to Top button visibility
+                if (scrollPosition > 300) {
+                    backToTopButton.classList.add('visible');
+                } else {
+                    backToTopButton.classList.remove('visible');
+                }
+            }
+
+            window.addEventListener('scroll', updateOnScroll);
+
+            // --- Fade-in on Scroll for Elements ---
+            const faders = document.querySelectorAll('.fade-in');
+
+            const appearOptions = {
+                threshold: 0.2, // Trigger when 20% of the element is visible
+                rootMargin: "0px 0px -50px 0px" // Start a bit later
+            };
+
+            const appearOnScroll = new IntersectionObserver(function (entries, appearOnScroll) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    } else {
+                        entry.target.classList.add('is-visible');
+                        appearOnScroll.unobserve(entry.target);
+                    }
+                });
+            }, appearOptions);
+
+            faders.forEach(fader => {
+                appearOnScroll.observe(fader);
+            });
+        });
+    </script>
+</body>
+
+</html>
